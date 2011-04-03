@@ -1,2 +1,7 @@
- [ ] Port over to PSR-0
+ [/] Port over to PSR-0
  [ ] Port lexer branch from cssdoc
+   [ ] Port the Docblock example under test
+   [ ] Port Classes to make the Docblock example work
+ [ ] Move generics out of concrete parser into generic parser
+ [ ] Stream support
+ [ ] Encoding support
