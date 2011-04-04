@@ -23,6 +23,7 @@
  * @version 0.0.1
  * @package Tests
  */
+
 Namespace Tallakit;
 
 require_once(__DIR__.'/../TestCase.php');
