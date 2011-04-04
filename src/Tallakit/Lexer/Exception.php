@@ -24,14 +24,7 @@
  * @package Tallakit
  */
 
-Namespace Tallakit;
+Namespace Tallakit\Lexer;
+Use Tallakit\Exception;
 
-interface LexerInterface {
-	public function nextToken();
-	/**
-	 * @return array of known token names
-	 */
-	public function getAllTokenNames();
-	public function eof();
-	public function lex();
-}
+class Exception extends Exception {};

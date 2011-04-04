@@ -82,7 +82,7 @@ class Tallakit {
 	 */
 	public static function loadLibrary() {
 		$classNames = array(
-			'Tallakit\\LexerInterface',
+			'Tallakit\\Lexer\\Face',
 			'Tallakit\\Exception',
 		);
 		$resultArray = array_map(get_called_class().'::loadClass', $classNames);

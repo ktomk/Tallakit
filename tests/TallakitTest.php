@@ -111,7 +111,7 @@ class TallakitTest extends \Tallakit\TestCase
 		$result = \Tallakit::loadClass($className);
 		$this->assertFalse($result);
 
-		$className = 'Tallakit\LexerInterface';
+		$className = 'Tallakit\Lexer\\Face';
 		$result = \Tallakit::loadClass($className);
 		$this->assertTrue($result, 'Could not load interface - result not true.');
 
