@@ -1,7 +1,10 @@
  [x] Port over to PSR-0
  [/] Port lexer branch from cssdoc
    [x] Port the Docblock example under test
-   [ ] Port Classes to make the Docblock example work
+   [/] Port Classes to make the Docblock example work
+   [ ] Port generic regex lexer example, move to front
  [ ] Move generics out of concrete parser into generic parser
+ [ ] Allow binary offset and length instead of value (memory optimized, make this optional)
  [ ] Stream support
  [ ] Encoding support
+ [?] Email example / comparison
