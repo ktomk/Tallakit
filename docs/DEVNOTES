@@ -1,0 +1,6 @@
+Eclipse PHPSRC PTI PHPUnit Configuration:
+
+  SuperClass: Tallakit\TestCase
+  Test Folder Pattern: \%p\%d{1}\tests\%d{3,}
+  Source Folder Pattern: \%p\%d{1}\src\%d{3,}
+  File Name Pattern: %fTest.%e (default)
