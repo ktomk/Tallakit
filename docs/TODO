@@ -1,9 +1,9 @@
  [x] Port over to PSR-0
  [/] Port lexer branch from cssdoc
    [x] Port the Docblock example under test
-   [/] Port Classes to make the Docblock example work
-   [ ] Port generic regex lexer example, move to front
-   [ ] Put grammar example under test
+   [x] Port Classes to make the Docblock example work
+   [/] Port generic regex lexer example, move to front
+   [/] Put grammar example under test
  [ ] Check for unused macros and do warnings on those
  [ ] Move generics out of concrete parser into generic parser
  [ ] Allow binary offset and length instead of value (memory optimized, make this optional)
