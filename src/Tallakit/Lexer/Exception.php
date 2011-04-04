@@ -25,6 +25,5 @@
  */
 
 Namespace Tallakit\Lexer;
-Use Tallakit\Exception;
 
-class Exception extends Exception {};
+class Exception extends \Tallakit\Exception {};
