@@ -37,12 +37,43 @@ $text = '/**
  * @author Mary Margin
  */';
 
+// use docblock parser to get concrete 
+// lexer needed for grammar parser
+// FIXME create lexer here to show token syntax
 $parser = new DocblockParser($text);
+$runner = $parser->getLexer();
+$lexerConcrete = $runner->lexer();
 
-try {
-	$docblock = $parser->parse();
-	printf("PARSING DONE:\n");
-	print_r($docblock);
-} catch(DocblockParseException $e) {
-	printf("PARSE ERROR: %s\n", $e->getMessage());
+// the fun starts
+class DocblockGrammarParser extends Tallakit\Parser\Grammar {
+	/**
+	 * Grammar
+	 * 
+	 * @var array products (as in BNF) 
+	 * 
+	 * Syntax:
+	 * 
+	 *   <terminal symbol>  :  token from lexer
+	 *   {product} .......  :  product
+	 * 
+	 * this is not standard pcre syntax! supported is basic
+	 * class "[]" and grouping "()" and quantifiers "?*+{min,max}". 
+	 * whitespaces are ignored.
+	 * 
+	 *  /!\  DO NOT USE:
+	 *       - backreferences
+	 *       - lookahead/behind
+	 */
+	protected $grammar = array(
+		'docblock'    =>  '{blockstart}{blockinner}{blockend}', 
+		'blockstart'  =>  '<CM_START>', 
+		'blockend'    =>  '<CM_END>', 
+		'blockinner'  =>  '({line})*',
+		'line'        =>  '{char}*<NL>',
+		'char'        =>  '[^<NL>]',
+	);
 }
+
+$validator = new DocblockGrammarParser($lexerConcrete);
+$result = $validator->parse();
+var_dump($result);
