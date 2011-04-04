@@ -115,13 +115,12 @@ class TallakitTest extends \Tallakit\TestCase
 		$result = \Tallakit::loadClass($className);
 		$this->assertTrue($result, 'Could not load interface - result not true.');
 
-		# FIXME add a class to test
-//		$className = 'Tallakit\\Parser';
-//		$result = \Tallakit::loadClass($className);
-//		$this->assertTrue($result, 'Could not load class - result not true.');
-//
-//		$testClass = new $className();
-//		$this->assertInstanceOf($className, $testClass);
+		$className = 'Tallakit\\Exception';
+		$result = \Tallakit::loadClass($className);
+		$this->assertTrue($result, 'Could not load class - result not true.');
+
+		$testClass = new $className();
+		$this->assertInstanceOf($className, $testClass);
 	}
 
 	/**
@@ -130,7 +129,7 @@ class TallakitTest extends \Tallakit\TestCase
 	 */
 	public function testLoadLibrary()
 	{
-		$expected = 1;
+		$expected = 2;
 		$actual = \Tallakit::loadLibrary();
 		$this->assertSame($expected, $actual, sprintf('loadLibrary failed to load %d classes/interfaces (result was: %d).', $expected, $actual));
 	}

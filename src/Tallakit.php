@@ -83,6 +83,7 @@ class Tallakit {
 	public static function loadLibrary() {
 		$classNames = array(
 			'Tallakit\\LexerInterface',
+			'Tallakit\\Exception',
 		);
 		$resultArray = array_map(get_called_class().'::loadClass', $classNames);
 		$resultCountable = array_map('intval', $resultArray);
