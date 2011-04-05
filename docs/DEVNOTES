@@ -1,6 +1,10 @@
 Eclipse PHPSRC PTI PHPUnit Configuration:
 
-  SuperClass: Tallakit\TestCase
-  Test Folder Pattern: \%p\%d{1}\tests\%d{3,}
-  Source Folder Pattern: \%p\%d{1}\src\%d{3,}
+NOTE: Automatic Test skeleton creation might be broken. I (tk) need to 
+      manually create the files. PTI / PHPUnit give file creation errors, 
+      do not handle the SuperClass and give a java.lang.StackOverflowError.
+
+  SuperClass: \Tallakit\TestCase
+  Test Folder Pattern: \%p\tests\%d{2,}
+  Source Folder Pattern: \%p\tests\%d{2,}
   File Name Pattern: %fTest.%e (default)

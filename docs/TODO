@@ -1,12 +1,22 @@
  [x] Port over to PSR-0
- [/] Port lexer branch from cssdoc
+ [x] Port lexer branch from cssdoc
    [x] Port the Docblock example under test
    [x] Port Classes to make the Docblock example work
-   [/] Port generic regex lexer example, move to front
-   [/] Put grammar example under test
+   [x] Port generic regex lexer example, move to front
+   [x] Put grammar example under test
+ [/] Review
+   [/] Increase coverage
+   [/] Add Tests
+   [ ] Check FIXMEs
+   [ ] Check TODOs
+ [ ] Email example / comparison
+ [ ] Remove debug code from Parser\Grammar
+ [ ] Scan for var_dump() and review
  [ ] Check for unused macros and do warnings on those
+    - in Macros
  [ ] Move generics out of concrete parser into generic parser
  [ ] Allow binary offset and length instead of value (memory optimized, make this optional)
+    - in Lexer\Base
  [ ] Stream support
  [ ] Encoding support
- [?] Email example / comparison
+ [?] Hide lexer() in Lexer\Decorator
