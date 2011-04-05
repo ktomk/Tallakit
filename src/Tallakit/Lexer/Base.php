@@ -57,8 +57,8 @@ class Base implements Face
 		$this->reset();
 	}
 	public function reset() {
-		$this->offset = 0;
 		$this->count = 0;
+		$this->offset = 0;
 		$this->col = 0;
 		$this->line = 1;
 	}
@@ -72,6 +72,7 @@ class Base implements Face
 	 * @return array input buffer (from current offset) in form of an array of tokens
 	 */
 	public function lex() {
+		$this->reset();
 		$tokens = array();
 		while($token = $this->nextToken()) {
 			list($type,$value) = $token;

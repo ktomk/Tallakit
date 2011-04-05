@@ -28,13 +28,20 @@ Namespace Tallakit\Lexer;
 
 interface Face {
 	/**
-	 * @return array Next Token, e.g. list($name, $value, $line, $col)
+	 * @return array|false Token, e.g. list($name, $value, $line, $col) or false if no more next token.
 	 */
 	public function nextToken();
 	/**
 	 * @return array Token names.
 	 */
 	public function getTokenNames();
+	/**
+	 * @return bool
+	 */
 	public function eof();
+	/**
+	 * run tokenization
+	 * @return array tokens
+	 */
 	public function lex();
 }

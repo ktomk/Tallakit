@@ -25,48 +25,92 @@
  */
 
 Namespace Tallakit\Lexer;
+Use \InvalidArgumentException;
 
 /**
- * run over tokens from lexer
+ * Runner Lexer Decorator
+ *
+ * Decorates any Lexer with position related functions
+ * on the imaginable token-stream:
+ *
+ *   setPosition($position) - absolute position
+ *   move(+/- $number) - relative movement
+ *
+ * Additionally offers Read-Ahead support:
+ *
+ *    readAhead($number) - ensure you have the possible maximum (before EOF) number of tokens
+ *
+ * TODO readAhead() is a candidate to be moved.
  */
 class Runner extends Decorator
 {
-	/** @var array store for parsed tokens */
+	/**
+	 * @var array store for parsed tokens
+	 */
 	protected $tokens;
-	/** @var int position, 0 is start (no token), 1 is the first token */
+	/**
+	 * @var int position, 0 is start (no token, initialized only), 1 is the first token
+	 */
 	private $position_=0;
+	private $length_;
+	/**
+	 * @see Tallakit\Lexer\Decorator::nextToken()
+	 * @return array|false
+	 */
 	public function nextToken() {
-		$count = count($this->tokens);
-		$count===$this->position_
-			&& $this->tokens[] = parent::nextToken()
+		$posConsumesTokens = $this->position_===count($this->tokens);
+		$nextToken = $posConsumesTokens ? parent::nextToken() : $this->tokens[$this->position_++];
+		($posConsumesTokens && $nextToken)
+			&& $this->tokens[$this->position_++] = $nextToken
 			;
-		return $this->tokens[$this->position_++];
+		return $nextToken;
 	}
+	/**
+	 * @see Tallakit\Lexer\Face::nextToken()
+	 * @return array|false
+	 */
 	public function currentToken() {
+		0 === $this->position_
+			&& $this->nextToken()
+			;
 		$index = $this->position_;
-		// at the very start, get a token first.
-		if (0 === $index-- && 0 === count($this->tokens))
-			$this->nextToken() && $index=0;
-		return $this->tokens[$index];
+		return $index ? $this->tokens[--$index] : false;
 	}
 	public function eof() {
-		return (bool) parent::eof() && $this->position_===count($this->tokens);
+		if (!parent::eof())
+			return false
+			;
+		$posConsumesTokens = $this->position_===count($this->tokens);
+		if (!$posConsumesTokens)
+			return false
+			;
+		$nextToken = parent::nextToken();
+		return empty($nextToken);
 	}
-	private function count() {
-		return count($this->tokens);
+	public function lex() {
+		$tokens = parent::lex();
+		return $this->tokens = $tokens;
 	}
 	public function position() {
 		return $this->position_;
 	}
+	/**
+	 * @param int $position
+	 * @return int new position
+	 * @throws InvalidArgumentException
+	 */
 	public function setPosition($position) {
 		if ($position < 1) 
-			throw new \InvalidArgumentException(sprintf('Position (#%d) must be greater 0.', $position));
+			throw new InvalidArgumentException(sprintf('Position (#%d) must be greater 0.', $position));
+
 		$count = count($this->tokens);
-		while($count-- < $position)
-			$this->nextToken()
-			;
-		$this->position_ = $position;
+		while($count < $position && $this->nextToken())
+			$count++;
+		return $this->position_ = min($position, $count);
 	}
+	/**
+	 * @param int $number
+	 */
 	public function move($number) {
 		$number = (int) $number;
 		$position = $this->position_ + $number;
@@ -74,18 +118,19 @@ class Runner extends Decorator
 	}
 	/**
 	 * @param int $number of tokens
+	 * @param int number of tokens ahead
 	 */
 	public function readAhead($number) {
 		$number=(int)$number;
-		if ($number<0)
-			throw new \InvalidArgumentException(sprintf('Can not read ahead a negative number of tokens (#%d).',$number));
+		if ($number<0) {
+			throw new InvalidArgumentException(sprintf('Can not read ahead a negative number of tokens (#%d).',$number));
+		}
 		$bookmark = $this->position_;
 		$count = count($this->tokens);
 		$total = $bookmark+$number;
-		$diff = $total-$count;
-		if($diff>0)
-			while($diff--&&!$this->eof())
-				$this->nextToken()
-		;
+		if(0 < $diff = $total-$count)
+			while($diff-- && $this->nextToken())
+			;
+		return count($this->tokens) - $bookmark;
 	}
 }
