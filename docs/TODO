@@ -15,6 +15,7 @@
  [ ] Check for unused macros and do warnings on those
     - in Macros
  [ ] Move generics out of concrete parser into generic parser
+ [ ] Tokens ->match() ->explode() etc.
  [ ] Allow binary offset and length instead of value (memory optimized, make this optional)
     - in Lexer\Base
  [ ] Stream support
