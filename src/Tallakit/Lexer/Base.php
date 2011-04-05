@@ -60,7 +60,7 @@ class Base implements Face
 		$this->count = 0;
 		$this->offset = 0;
 		$this->col = 0;
-		$this->line = 1;
+		$this->line = 0;
 	}
 	/**
 	 * @return array list($offset, $line, $col)

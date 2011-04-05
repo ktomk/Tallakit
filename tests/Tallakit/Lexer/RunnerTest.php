@@ -84,7 +84,7 @@ class RunnerTest extends \Tallakit\TestCase
     public function testCurrentAndPosition()
     {
         $runner = $this->getTestRunner();
-        $expected = array('NUMBER', '1', 1, 0);
+        $expected = array('NUMBER', '1', 0, 0);
 		$actual = $runner->currentToken();
 		$this->assertSame($expected, $actual);
 
