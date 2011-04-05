@@ -72,17 +72,17 @@ class Base implements Face
 	 * @return array input buffer (from current offset) in form of an array of tokens
 	 */
 	public function lex() {
-		while(!$this->eof()) {
-			$token = $this->nextToken();
+		$tokens = array();
+		while($token = $this->nextToken()) {
 			list($type,$value) = $token;
 			if(null===$type) {
-				throw new LexerParseErrorException(vsprintf('No Token at offset #%d in line #%d col #%d.', $this->status()));
+				throw new ParseErrorException(vsprintf('No Token at offset #%d in line #%d col #%d.', $this->status()));
 			}
 			if(empty($type)) {
-				throw new LexerParseErrorException(vsprintf('Unknown Token "%s"/#%d at offset #%d in line #%d col #%d.', array_merge(array($type, $type), $this->status())));
+				throw new ParseErrorException(vsprintf('Unknown Token "%s"/#%d at offset #%d in line #%d col #%d.', array_merge(array($type, $type), $this->status())));
 			}
 			if (!strlen($value)) {
-				throw new LexerParseErrorException(vsprintf('Empty Token <%s> at offset #%d in line #%d col #%d.', array_merge(array($type), $this->status())));
+				throw new ParseErrorException(vsprintf('Empty Token <%s> at offset #%d in line #%d col #%d.', array_merge(array($type), $this->status())));
 			}
 			$tokens[] = $token;
 		};
