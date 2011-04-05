@@ -25,5 +25,5 @@
  */
 
 Namespace Tallakit;
- 
+
 class MacrosException extends Exception {};

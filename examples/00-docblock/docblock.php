@@ -1,26 +1,26 @@
 <?php
 /**
  * Docblock Lexer and Parser
- * 
+ *
  * An Example of Tallakit - Lexer and Parser Library for PHP
- * 
+ *
  * Copyright (C) 2010-2011 Tom Klingenberg, some rights reserved
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program in a file called COPYING. If not, see
  * <http://www.gnu.org/licenses/> and please report back to the original
  * author.
- * 
+ *
  * @author Tom Klingenberg <http://lastflood.com/>
  * @version 0.0.1
  * @package Examples
@@ -43,35 +43,35 @@ class Docblock {}
  */
 class DocblockParser {
 	private $regexLex = array(
-		'[{][{tagchar}][}]' => 'escape_at', 
-		'[{]{tag}[}]' => 'inline_tag', 
-		'[{]{tag}(?={s})' => 'inline_start', 
-		'[}]{1,2}' => 'inline_end',  
+		'[{][{tagchar}][}]' => 'escape_at',
+		'[{]{tag}[}]' => 'inline_tag',
+		'[{]{tag}(?={s})' => 'inline_start',
+		'[}]{1,2}' => 'inline_end',
 		'{tagchar}-?{nmstart}+{s}?' => 'tag',
-		'[@\\\\]' => 'tagchar', 
+		'[@\\\\]' => 'tagchar',
 		
 		'{nmstart}+' => 'word',
-		'[.,;:!?]' => 'punct', 
+		'[.,;:!?]' => 'punct',
 		
-		'[a-z]' => 'nmstart', 
-		'[a-z0-9-]' => 'nmchar', 
-		'[*]' => 'asterisk', 
-		'(?:{nl}|{s})' => 'ws', 
-		'(?:\n|\r\n|\r|\f)' => 'nl', 
-		'[ \t]' => 's', 
+		'[a-z]' => 'nmstart',
+		'[a-z0-9-]' => 'nmchar',
+		'[*]' => 'asterisk',
+		'(?:{nl}|{s})' => 'ws',
+		'(?:\n|\r\n|\r|\f)' => 'nl',
+		'[ \t]' => 's',
 		
 		// ------ TOKENS: ------ //
 		
 		'^/\*\*' => 'CM_START',
 		'\*/' => 'CM_END',
-		'(?<=[\n\r\f]){s}*[*]+(?![/])[ ]?' => 'CM_LSTART', 
-		'{tag}(?={ws})' => 'TAG', 
+		'(?<=[\n\r\f]){s}*[*]+(?![/])[ ]?' => 'CM_LSTART',
+		'{tag}(?={ws})' => 'TAG',
 		'{inline_start}' => 'IN_START',
-		'{inline_tag}' => 'IN_TAG', 	
+		'{inline_tag}' => 'IN_TAG',
 		'{inline_end}' => 'IN_END',
 		'{escape_at}' => 'ESC_TAGCHAR',
-		'{asterisk}' => 'ASTERISK+', 
-		'{nl}' => 'NL', 
+		'{asterisk}' => 'ASTERISK+',
+		'{nl}' => 'NL',
 		'.' => 'C+', // dot lex last - catch all non-matching chars
 	);
 	/**
@@ -106,7 +106,7 @@ class DocblockParser {
 		throw new DocblockParseException($message);
 	}
 	private function parseOneToken($name) {
-		list($currentName) = $this->lexer->nextToken();		
+		list($currentName) = $this->lexer->nextToken();
 		if($name !== $currentName) {
 			$this->error($this->errorToken($name));
 			return 0;
@@ -116,12 +116,12 @@ class DocblockParser {
 	/**
 	 *  docblock = <CM_START>{inner}<CM_END>
 	 */
-	private function parseDocblock() {		
-		$this->docblock = new Docblock();		
+	private function parseDocblock() {
+		$this->docblock = new Docblock();
 		$r = 1;
 		$r && $r = $this->parseOneToken('CM_START');
 		$r && $r = $this->parseInner();
-		$r && $r = $this->parseOneToken('CM_END');		
+		$r && $r = $this->parseOneToken('CM_END');
 		if (!$r) return;
 		return $this->docblock;
 	}
@@ -143,7 +143,7 @@ class DocblockParser {
 					break;
 				$tagname = $value;
 				continue;
-			}			
+			}
 			$name === 'NL' && $value = "\n"; // normalize NL
 			$tagvalue .= $value;
 		}
@@ -152,10 +152,10 @@ class DocblockParser {
 		return 1;
 	}
 	/**
-	 * inner =  ({shortdesc} | {longdesc}) 
-	 * 			| {tag} {tagvalue} 
+	 * inner =  ({shortdesc} | {longdesc})
+	 * 			| {tag} {tagvalue}
 	 * 			| {inlinetag} {tagvalue}
-	 * 
+	 *
 	 * @todo parser for tag
 	 * @todo parser for inline tag
 	 */

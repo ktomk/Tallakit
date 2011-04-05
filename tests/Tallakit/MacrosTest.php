@@ -1,28 +1,29 @@
 <?php
 /**
  * Tallakit - Lexer and Parser Library for PHP
- * 
+ *
  * Copyright (C) 2010-2011 Tom Klingenberg, some rights reserved
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program in a file called COPYING. If not, see
  * <http://www.gnu.org/licenses/> and please report back to the original
  * author.
- * 
+ *
  * @author Tom Klingenberg <http://lastflood.com/>
  * @version 0.0.1
  * @package Tallakit
  */
+
 Namespace Tallakit;
 
 require_once(__DIR__.'/../TestCase.php');
@@ -33,99 +34,99 @@ require_once(__DIR__.'/../TestCase.php');
  */
 class MacrosTest extends TestCase
 {
-    /**
-     * @var Macros
-     */
-    protected $object;
+	/**
+	 * @var Macros
+	 */
+	protected $object;
 
-    /**
-     * Sets up the fixture, for example, opens a network connection.
-     * This method is called before a test is executed.
-     */
-    protected function setUp()
-    {
-    }
+	/**
+	 * Sets up the fixture, for example, opens a network connection.
+	 * This method is called before a test is executed.
+	 */
+	protected function setUp()
+	{
+	}
 
-    /**
-     * Tears down the fixture, for example, closes a network connection.
-     * This method is called after a test is executed.
-     */
-    protected function tearDown()
-    {
-    }
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 */
+	protected function tearDown()
+	{
+	}
 
-    /**
-     */
-    public function testExpand()
-    {
-    	// name => code
-    	$hash = array(
-    		'kraut_and_rueblis' => '{one}, {two}, {three}, {two}, {one} and a {three}',
-    		'one' => 'uno',
-    		'two' => 'dos',
-    		'three' => 'tres',
-    		'tripled' => '{doubled}{doubled}',    	
-    		'doubled' => '{one}{two}',
-    	);
-    	
-    	$expected = array(
-    		'kraut_and_rueblis' => 'uno, dos, tres, dos, uno and a tres',
-    		'one' => 'uno',
-    		'two' => 'dos',
-    		'three' => 'tres',
-    		'tripled' => 'unodosunodos',    	
-    		'doubled' => 'unodos',
-    	);
-    	$actual = Macros::expand($hash);
-    	
-    	$this->assertSame($expected, $actual);
-    }
+	/**
+	 */
+	public function testExpand()
+	{
+		// name => code
+		$hash = array(
+			'kraut_and_rueblis' => '{one}, {two}, {three}, {two}, {one} and a {three}',
+			'one' => 'uno',
+			'two' => 'dos',
+			'three' => 'tres',
+			'tripled' => '{doubled}{doubled}',
+			'doubled' => '{one}{two}',
+		);
 
-    /**
-     */
-    public function testCircular()
-    {
-    	$hash = array(
-    		'one' => '{two}',
-    		'two' => '{three}',
-    		'three' => '{one}',
-    	);
-    	$expected = array(
-    		'one' => '{two}',
-    		'two' => '{two}',
-    		'three' => '{two}',
-    	);
-    	
-    	\PHPUnit_Framework_Error_Warning::$enabled = FALSE;   	
-    	@$actual = Macros::expand($hash);
-    	\PHPUnit_Framework_Error_Warning::$enabled = TRUE;
-    	
-    	$message = 'Circular reference detected in macros: {one}->{two}->{three}->{one}.';    	
-    	$this->assertLastError($message, 'Macros.php');
-    	    	
-    	$this->assertSame($expected, $actual);
-    	
-    }
-    
-    /**
-     */
-    public function testUndefinedMacro()
-    {
-    	$hash = array(
-    		'one' => '{two}',
-    	);
-    	
-    	$this->addToAssertionCount(1);
-    	
-    	try {
-    		$actual = Macros::expand($hash);
-    	} catch (MacrosException $e) {
-    		if ( $e->getMessage() === 'Undefined macro {two} in one => "{two}".') {    			
-    			return;
-    		}
-    	}
-    	$this->fail('An expected exception has not been raised.');
-    }
-    
+		$expected = array(
+			'kraut_and_rueblis' => 'uno, dos, tres, dos, uno and a tres',
+			'one' => 'uno',
+			'two' => 'dos',
+			'three' => 'tres',
+			'tripled' => 'unodosunodos',
+			'doubled' => 'unodos',
+		);
+		$actual = Macros::expand($hash);
+
+		$this->assertSame($expected, $actual);
+	}
+
+	/**
+	 */
+	public function testCircular()
+	{
+		$hash = array(
+			'one' => '{two}',
+			'two' => '{three}',
+			'three' => '{one}',
+		);
+		$expected = array(
+			'one' => '{two}',
+			'two' => '{two}',
+			'three' => '{two}',
+		);
+
+		\PHPUnit_Framework_Error_Warning::$enabled = FALSE;
+		@$actual = Macros::expand($hash);
+		\PHPUnit_Framework_Error_Warning::$enabled = TRUE;
+
+		$message = 'Circular reference detected in macros: {one}->{two}->{three}->{one}.';
+		$this->assertLastError($message, 'Macros.php');
+
+		$this->assertSame($expected, $actual);
+
+	}
+
+	/**
+	 */
+	public function testUndefinedMacro()
+	{
+		$hash = array(
+			'one' => '{two}',
+		);
+
+		$this->addToAssertionCount(1);
+
+		try {
+			$actual = Macros::expand($hash);
+		} catch (MacrosException $e) {
+			if ( $e->getMessage() === 'Undefined macro {two} in one => "{two}".') {
+				return;
+			}
+		}
+		$this->fail('An expected exception has not been raised.');
+	}
+
 }
 ?>
