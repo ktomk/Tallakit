@@ -129,7 +129,7 @@ class TallakitTest extends \Tallakit\TestCase
 	 */
 	public function testLoadLibrary()
 	{
-		$expected = 13;
+		$expected = 12;
 		$actual = \Tallakit::loadLibrary();
 		$this->assertSame($expected, $actual, sprintf('loadLibrary failed to load %d classes/interfaces (result was: %d).', $expected, $actual));
 	}

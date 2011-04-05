@@ -85,7 +85,6 @@ class Tallakit {
 			'Tallakit\\Lexer\\Base',
 			'Tallakit\\Lexer\\Decorator',
 			'Tallakit\\Lexer\\Exception',		
-			'Tallakit\\Lexer\\EofException',
 			'Tallakit\\Lexer\\Face',
 			'Tallakit\\Lexer\\ParseErrorException',
 			'Tallakit\\Lexer\\Regex',

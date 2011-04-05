@@ -136,7 +136,7 @@ class Base implements Face
 	}
 	public function nextToken() {
 		if ($this->eof()) {
-			throw new LexerEofException();
+			return false;
 		}
 		list($match, $consume) = $this->nextMatch();
 		$token = $this->addToken($match, $consume);
