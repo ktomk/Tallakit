@@ -20,7 +20,7 @@
  * author.
  *
  * @author Tom Klingenberg <http://lastflood.com/>
- * @version 0.0.1
+ * @version 0.0.2
  * @package Tests
  */
 
@@ -28,6 +28,13 @@ Namespace Tallakit;
 
 require_once(__DIR__.'/TestCase.php');
 
+/**
+ * Test Examples Class
+ *
+ * The exmaples test iterates over all
+ * examples that are shipping with the library,
+ * asserting lints and execution.
+ */
 class ExamplesTest extends TestCase
 {
 	/**
@@ -89,6 +96,7 @@ class ExamplesTest extends TestCase
 
 	public function testExamples() {
 		$examples = $this->getExamples();
+		$this->assertGreaterThan(0, count($examples), 'Expected examples to test.');
 		foreach($examples as $example) {
 			$this->exampleTest($example);
 		}
